@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -28,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByName(name);
     }
 
-    @CachePut(value= "products", key = "#product.name")
+    @CachePut(value = "products", key = "#product.name")
     @Override
     public void addProduct(Product product) {
         productRepository.save(product);

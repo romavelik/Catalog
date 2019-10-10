@@ -25,6 +25,7 @@ public class Product implements Serializable {
         this.description = description;
         this.dateCreated = dateCreated;
     }
+
     public Product(Long id, String name, String description, Date dateCreated) {
         this.id = id;
         this.name = name;

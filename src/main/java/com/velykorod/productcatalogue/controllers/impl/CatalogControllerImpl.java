@@ -2,7 +2,6 @@ package com.velykorod.productcatalogue.controllers.impl;
 
 import com.velykorod.productcatalogue.controllers.CatalogController;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
-import com.velykorod.productcatalogue.service.ProductService;
 import com.velykorod.productcatalogue.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,8 @@ public class CatalogControllerImpl implements CatalogController {
     @Autowired
     private ProductServiceImpl productService;
 
+    /*Returns page with product list*/
+
     @GetMapping("/catalog")
     @Override
     public String getCatalog(Model model) {
@@ -22,14 +23,16 @@ public class CatalogControllerImpl implements CatalogController {
         return "catalog";
     }
 
+    /*Returns specified product page that contains details and buttons update and delete*/
+
     @GetMapping("/catalog/product/{id}")
     @Override
     public String productDetails(@PathVariable String id, Model model) {
         Product product = productService.findById(Long.valueOf(id));
-        if(product!=null) {
+        if (product != null) {
             model.addAttribute("product", product);
             return "product";
-        }else{
+        } else {
             return "error";
         }
     }

@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ public class CatalogControllerImplTest {
 
 
     @Before
-    public void setup(){
+    public void setup() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/resources/templates");
         viewResolver.setSuffix(".html");
@@ -42,7 +43,7 @@ public class CatalogControllerImplTest {
 
     private String productName = "Test Product";
     private String productDescription = "Test Description";
-    private Date productDate= new Date();
+    private Date productDate = new Date();
     private Product product = new Product(productName, productDescription, productDate);
     private Product otherProduct = new Product(1L, "Other Product", "Some description", productDate);
     private List<Product> allProducts = Arrays.asList(product, otherProduct);
@@ -69,7 +70,7 @@ public class CatalogControllerImplTest {
     }
 
     @Test
-    public void testNullProduct() throws Exception{
+    public void testNullProduct() throws Exception {
         Mockito.when(productService.findById(Mockito.anyLong())).thenReturn(null);
 
         mock.perform(MockMvcRequestBuilders.get("/catalog/product/1"))

@@ -7,14 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-            <a class="navbar-brand" href="/">HOME</a>
+                <a class="navbar-brand" href="/">HOME</a>
             </li>
             <li class="nav-item">
                 <a class="navbar-brand" href="/catalog">Catalog</a>
@@ -25,7 +26,8 @@
             <li class="nav-item">
                 <form action="/search" method="get">
                     <label for="search">
-                        <input class="form-control" id="search" type="text" name="search" placeholder="Enter a product name">
+                        <input class="form-control" id="search" type="text" name="search"
+                               placeholder="Enter a product name">
                     </label>
                     <button type="submit" class="btn btn-light mb-1">Search</button>
                 </form>
@@ -34,19 +36,20 @@
     </div>
 </nav>
 <form action="/create" method="post">
-        <div class="form-group">
-            <div class="col-5">
+    <div class="form-group">
+        <div class="col-5">
             <label for="name">Name</label>
             <input type="text" class="form-control" name="name" id="name" placeholder="Enter a product a name">
-            </div>
         </div>
-        <div class="form-group">
-            <div class="col-5">
+    </div>
+    <div class="form-group">
+        <div class="col-5">
             <label for="description">Description</label>
-            <input class="form-control form-control-lg" type="text" name="description" id="description" placeholder="Describe a product">
-            </div>
+            <input class="form-control form-control-lg" type="text" name="description" id="description"
+                   placeholder="Describe a product">
         </div>
+    </div>
     <button type="submit" class="btn btn-outline-dark">Done</button>
-    </form>
+</form>
 </body>
 </html>

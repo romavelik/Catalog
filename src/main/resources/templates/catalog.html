@@ -26,7 +26,8 @@
             <li class="nav-item">
                 <form action="/search" method="get">
                     <label for="search">
-                        <input class="form-control" id="search" type="text" name="search" placeholder="Enter a product name">
+                        <input class="form-control" id="search" type="text" name="search"
+                               placeholder="Enter a product name">
                     </label>
                     <button type="submit" class="btn btn-light mb-1">Search</button>
                 </form>
@@ -38,7 +39,7 @@
     <h2>All products</h2>
 </div>
 <div class="row">
-<tr th:each="product:${products}">
+    <tr th:each="product:${products}">
         <div class="col-sm-3">
             <div class="card-centr" style="width: 18rem;">
                 <div class="card-body">
@@ -48,7 +49,7 @@
                 </div>
             </div>
         </div>
-</tr>
+    </tr>
 </div>
 </body>
 </html>

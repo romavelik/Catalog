@@ -36,20 +36,18 @@
     </div>
 </nav>
 <div>
-    <h2>All products</h2>
+    <h2>Categories</h2>
 </div>
-<div class="row">
-    <tr th:each="product:${products}">
-        <div class="col-sm-3">
-            <div class="card-centr" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${product.name}"></h5>
-                    <p class="card-text" th:text="${product.description}"></p>
-                    <a class="btn btn-outline-dark" th:href="@{/catalog/product/{id}/(id=${product.id})}" role="button">More</a>
-                </div>
-            </div>
-        </div>
+    <tr th:each="category:${categories}">
+        <p>
+        <a class="btn btn-outline-dark" th:href="@{/catalog/category/{id}/(id=${category.id})}" role="button" th:text="${category.name}"></a>
+        <a th:href="@{/edit_category/{id}/(id=${category.id})}" class="btn btn-outline-dark">Edit category</a>
+        <form action="/delete_category" method="post">
+       <input type="hidden" name="id" th:value="${category.id}">
+            <button type="submit" class="btn btn-outline-dark">Delete category</button>
+        </form>
+        </p>
     </tr>
-</div>
+<div><a href="/create_category">Add new category</a></div>
 </body>
 </html>

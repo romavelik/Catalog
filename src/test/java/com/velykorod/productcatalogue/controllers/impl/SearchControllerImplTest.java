@@ -1,5 +1,6 @@
 package com.velykorod.productcatalogue.controllers.impl;
 
+import com.velykorod.productcatalogue.persistance.domain.impl.Category;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
 import com.velykorod.productcatalogue.service.impl.ProductServiceImpl;
 import org.junit.Before;
@@ -44,7 +45,7 @@ public class SearchControllerImplTest {
     private String productName = "Test Product";
     private String productDescription = "Test Description";
     private Date productDate= new Date();
-    private Product product = new Product(productName, productDescription, productDate);
+    private Product product = new Product(productName, productDescription, productDate, new Category());
     private Product otherProduct = new Product(1L, "Other Product", "Some description", productDate);
     private List<Product> allProducts = Arrays.asList(product, otherProduct);
 
@@ -55,7 +56,7 @@ public class SearchControllerImplTest {
 
         mock.perform(MockMvcRequestBuilders.get("/search").param("search", "name"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("catalog"))
+                .andExpect(MockMvcResultMatchers.view().name("search_results"))
                 .andExpect(MockMvcResultMatchers.model().attribute("products", allProducts));
     }
 

@@ -1,29 +1,32 @@
 package com.velykorod.productcatalogue.controllers.impl;
 
 import com.velykorod.productcatalogue.controllers.ProductController;
+import com.velykorod.productcatalogue.persistance.domain.impl.Category;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
+import com.velykorod.productcatalogue.service.CategoryService;
+import com.velykorod.productcatalogue.service.ProductService;
+import com.velykorod.productcatalogue.service.impl.CategoryServiceImpl;
 import com.velykorod.productcatalogue.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 @Controller
 public class ProductControllerImpl implements ProductController {
     @Autowired
-    private ProductServiceImpl productService;
+    private ProductService productService;
+    @Autowired
+    private CategoryService categoryService;
 
     /*Saves new product in DB and redirects to product list page*/
 
-    @PostMapping("/create")
+    @PostMapping("/add_product")
     @Override
-    public String addProduct(@RequestParam("name") String name, @RequestParam("description") String description) {
-        Product product = new Product(name, description, new Date());
+    public String addProduct(@RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("categoryId") String id) {
+        Product product = new Product(name, description, new Date(), categoryService.findById(Long.valueOf(id)));
         productService.addProduct(product);
         return "redirect:/catalog";
     }
@@ -32,7 +35,8 @@ public class ProductControllerImpl implements ProductController {
 
     @GetMapping("/create_product")
     @Override
-    public String createProduct() {
+    public String createProduct(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
         return "create_product";
     }
 

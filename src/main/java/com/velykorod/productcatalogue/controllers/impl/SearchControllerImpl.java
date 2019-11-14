@@ -1,6 +1,7 @@
 package com.velykorod.productcatalogue.controllers.impl;
 
 import com.velykorod.productcatalogue.controllers.SearchController;
+import com.velykorod.productcatalogue.service.ProductService;
 import com.velykorod.productcatalogue.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SearchControllerImpl implements SearchController {
 
     @Autowired
-    private ProductServiceImpl productService;
+    private ProductService productService;
 
     /*Finds product with specified name and returns list of products with this name*/
 
@@ -20,6 +21,6 @@ public class SearchControllerImpl implements SearchController {
     @Override
     public String findByName(@RequestParam("search") String name, Model model) {
         model.addAttribute("products", productService.findByName(name));
-        return "catalog";
+        return "search_results";
     }
 }

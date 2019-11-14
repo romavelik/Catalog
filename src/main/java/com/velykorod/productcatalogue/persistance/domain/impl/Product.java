@@ -1,5 +1,7 @@
 package com.velykorod.productcatalogue.persistance.domain.impl;
 
+import lombok.NonNull;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -7,8 +9,10 @@ import java.util.Date;
 @Entity
 @Table(name = "product")
 public class Product implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private Long id;
 
     @Column
@@ -20,21 +24,46 @@ public class Product implements Serializable {
     @Column
     private Date dateCreated;
 
-    public Product(String name, String description, Date dateCreated) {
-        this.name = name;
-        this.description = description;
-        this.dateCreated = dateCreated;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    public Product(Long id, String name, String description, Date dateCreated) {
+
+    public Product(@NonNull Long id, @NonNull String name, @NonNull String description, @NonNull Date dateCreated) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.dateCreated = dateCreated;
     }
 
+    public Product(@NonNull String name, @NonNull String description, @NonNull Date dateCreated, @NonNull Category category) {
+        this.name = name;
+        this.description = description;
+        this.dateCreated = dateCreated;
+        this.category = category;
+    }
 
     public Product() {
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Long getId() {
@@ -51,6 +80,10 @@ public class Product implements Serializable {
 
     public Date getDateCreated() {
         return dateCreated;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     @Override

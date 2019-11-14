@@ -35,32 +35,21 @@
         </ul>
     </div>
 </nav>
-<form action="/add_product" method="post">
-    <div class="form-group">
-        <div class="col-5">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Enter a product a name">
+<div>
+    <h2>All products</h2>
+</div>
+<div class="row">
+    <tr th:each="product:${products}">
+        <div class="col-sm-3">
+            <div class="card-centr" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}"></h5>
+                    <p class="card-text" th:text="${product.description}"></p>
+                    <a class="btn btn-outline-dark" th:href="@{/catalog/product/{id}/(id=${product.id})}" role="button">More</a>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-5">
-            <label for="description">Description</label>
-            <input class="form-control form-control-lg" type="text" name="description" id="description"
-                   placeholder="Describe a product">
-        </div>
-    </div>
-    <div class="form-row align-items-center">
-        <div class="col-auto my-1">
-            <label class="mr-sm-2 sr-only" for="category">Category</label>
-            <select class="custom-select mr-sm-2" name="categoryId" id="category">
-                <option selected>Choose category</option>
-                <option th:each="category : ${categories}"
-                        th:value="${category.id}"
-                        th:text="${category.name}"></option>
-            </select>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-outline-dark">Done</button>
-</form>
+    </tr>
+</div>
 </body>
 </html>

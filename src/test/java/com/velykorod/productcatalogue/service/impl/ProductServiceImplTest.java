@@ -1,5 +1,6 @@
 package com.velykorod.productcatalogue.service.impl;
 
+import com.velykorod.productcatalogue.persistance.domain.impl.Category;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
 import com.velykorod.productcatalogue.persistance.repository.ProductRepository;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class ProductServiceImplTest {
     private String productName = "Test Product";
     private String productDescription = "Test Description";
     private Date productDate= new Date();
-    private Product product = new Product(productName, productDescription, productDate);
+    private Product product = new Product(productName, productDescription, productDate, new Category());
     private List<Product> similarNameProducts = Arrays.asList(product);
     private Product otherProduct = new Product(1L, "Other Product", "Some description", productDate);
     private List<Product> allProducts = Arrays.asList(product, otherProduct);

@@ -17,37 +17,37 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Cacheable(value = "products")
+//    @Cacheable(value = "products")
     @Override
     public Iterable<Product> findAll() {
         return productRepository.findAll();
     }
 
-    @Cacheable(value = "products")
+//    @Cacheable(value = "products")
     @Override
     public List<Product> findByName(String name) {
         return productRepository.findByName(name);
     }
 
-    @CachePut(value = "products", key = "#product.name")
+//    @CachePut(value = "products", key = "#product.name")
     @Override
     public void addProduct(Product product) {
         productRepository.save(product);
     }
 
-    @CacheEvict(value = "products", key = "#id")
+//    @CacheEvict(value = "products", key = "#id")
     @Override
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
 
-    @CachePut(value = "products", key = "#product.name")
+//    @CachePut(value = "products", key = "#product.name")
     @Override
     public void editProduct(Product product) {
         productRepository.updateProduct(product.getName(), product.getDescription(), product.getId());
     }
 
-    @Cacheable(value = "products", key = "#id")
+//    @Cacheable(value = "products", key = "#id")
     @Override
     public Product findById(Long id) {
         return productRepository.findById(id).get();

@@ -1,7 +1,11 @@
 package com.velykorod.productcatalogue.controllers.impl;
 
 import com.velykorod.productcatalogue.controllers.CatalogController;
+import com.velykorod.productcatalogue.persistance.domain.impl.Category;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
+import com.velykorod.productcatalogue.service.CategoryService;
+import com.velykorod.productcatalogue.service.ProductService;
+import com.velykorod.productcatalogue.service.impl.CategoryServiceImpl;
 import com.velykorod.productcatalogue.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,14 +16,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class CatalogControllerImpl implements CatalogController {
     @Autowired
-    private ProductServiceImpl productService;
+    private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     /*Returns page with product list*/
 
     @GetMapping("/catalog")
     @Override
     public String getCatalog(Model model) {
-        model.addAttribute("products", productService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "catalog";
     }
 
@@ -32,6 +39,17 @@ public class CatalogControllerImpl implements CatalogController {
         if (product != null) {
             model.addAttribute("product", product);
             return "product";
+        } else {
+            return "error";
+        }
+    }
+
+    @GetMapping("/catalog/category/{id}")
+    public String openCategory(@PathVariable String id, Model model){
+        Category category = categoryService.findById(Long.valueOf(id));
+        if (category != null){
+            model.addAttribute("products", category.getProducts());
+            return "category";
         } else {
             return "error";
         }

@@ -1,6 +1,8 @@
 package com.velykorod.productcatalogue.controllers.impl;
 
+import com.velykorod.productcatalogue.persistance.domain.impl.Category;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
+import com.velykorod.productcatalogue.service.impl.CategoryServiceImpl;
 import com.velykorod.productcatalogue.service.impl.ProductServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +18,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RunWith(MockitoJUnitRunner.class)
 @WebMvcTest
@@ -26,6 +27,9 @@ public class CatalogControllerImplTest {
 
     @Mock
     ProductServiceImpl productService;
+
+    @Mock
+    CategoryServiceImpl categoryService;
 
     @InjectMocks
     CatalogControllerImpl catalogController;
@@ -44,19 +48,18 @@ public class CatalogControllerImplTest {
     private String productName = "Test Product";
     private String productDescription = "Test Description";
     private Date productDate = new Date();
-    private Product product = new Product(productName, productDescription, productDate);
     private Product otherProduct = new Product(1L, "Other Product", "Some description", productDate);
-    private List<Product> allProducts = Arrays.asList(product, otherProduct);
-
+    private Category category = new Category();
+    private List<Category> categories = Arrays.asList(category, new Category());
 
     @Test
     public void testGetCatalog() throws Exception {
-        Mockito.when(productService.findAll()).thenReturn(allProducts);
+        Mockito.when(categoryService.findAll()).thenReturn(categories);
 
         mock.perform(MockMvcRequestBuilders.get("/catalog"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("catalog"))
-                .andExpect(MockMvcResultMatchers.model().attribute("products", allProducts));
+                .andExpect(MockMvcResultMatchers.model().attribute("categories", categories));
     }
 
     @Test
@@ -74,6 +77,24 @@ public class CatalogControllerImplTest {
         Mockito.when(productService.findById(Mockito.anyLong())).thenReturn(null);
 
         mock.perform(MockMvcRequestBuilders.get("/catalog/product/1"))
+                .andExpect(MockMvcResultMatchers.view().name("error"));
+    }
+
+    @Test
+    public void testOpenCategory() throws Exception {
+        Mockito.when(categoryService.findById(Mockito.anyLong())).thenReturn(category);
+        category.setProducts(new HashSet<>());
+        mock.perform(MockMvcRequestBuilders.get("/catalog/category/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("category"))
+                .andExpect(MockMvcResultMatchers.model().attribute("products", category.getProducts()));
+    }
+
+    @Test
+    public void testNullCategory() throws Exception{
+        Mockito.when(categoryService.findById(Mockito.anyLong())).thenReturn(null);
+
+        mock.perform(MockMvcRequestBuilders.get("/catalog/category/1"))
                 .andExpect(MockMvcResultMatchers.view().name("error"));
     }
 }

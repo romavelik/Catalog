@@ -12,13 +12,13 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    Long Id;
+    private Long Id;
 
     @Column
-    String name;
+    private String name;
 
     @OneToMany(mappedBy = "category", cascade=CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
-    Set<Product> products;
+    private Set<Product> products;
 
     public Category() {
 

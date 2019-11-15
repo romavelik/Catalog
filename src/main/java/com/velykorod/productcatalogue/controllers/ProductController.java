@@ -1,6 +1,5 @@
 package com.velykorod.productcatalogue.controllers;
 
-import com.velykorod.productcatalogue.persistance.domain.impl.Category;
 import org.springframework.ui.Model;
 
 public interface ProductController {

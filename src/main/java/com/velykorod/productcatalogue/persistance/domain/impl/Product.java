@@ -28,15 +28,21 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Column
+    private String imgName;
 
-    public Product(@NonNull Long id, @NonNull String name, @NonNull String description, @NonNull Date dateCreated) {
+    @Column
+    private String fileName;
+
+
+    public Product(Long id, String name, String description, Date dateCreated) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.dateCreated = dateCreated;
     }
 
-    public Product(@NonNull String name, @NonNull String description, @NonNull Date dateCreated, @NonNull Category category) {
+    public Product(String name, String description, Date dateCreated, Category category) {
         this.name = name;
         this.description = description;
         this.dateCreated = dateCreated;
@@ -84,6 +90,22 @@ public class Product implements Serializable {
 
     public Category getCategory() {
         return category;
+    }
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override

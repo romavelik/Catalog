@@ -9,7 +9,7 @@ public interface ProductController {
     String deleteProduct(String id);
     String updateProduct(String id, Model model);
     String createProduct(Model model);
-    String addProduct(String name, String description, String id, String price, MultipartFile image, MultipartFile file);
+    String addProduct(String name, String description, String id, String price, MultipartFile image, MultipartFile [] files);
     String editProduct(String id, String name, String description, String price);
-    byte [] getFile(/*String id,*/ String filename, String productName) throws IOException;
+    byte [] getFile(String filename, String productName) throws IOException;
 }

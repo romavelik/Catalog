@@ -1,6 +1,8 @@
 package com.velykorod.productcatalogue.controllers.impl;
 
 import com.velykorod.productcatalogue.controllers.ProductController;
+import com.velykorod.productcatalogue.persistance.domain.MediaFile;
+import com.velykorod.productcatalogue.persistance.domain.impl.AudioTrack;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
 import com.velykorod.productcatalogue.service.CategoryService;
 import com.velykorod.productcatalogue.service.ProductService;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -35,16 +38,19 @@ public class ProductControllerImpl implements ProductController {
                              @RequestParam("categoryId") String id,
                              @RequestParam("price") String price,
                              @RequestParam("image") MultipartFile image,
-                             @RequestParam("file") MultipartFile file) {
+                             @RequestParam("file[]") MultipartFile[] files) {
         String resultImageName = UUID.randomUUID().toString() + "." + image.getOriginalFilename();
-        String resultFileName = Math.random() + "." + file.getOriginalFilename();
+//        String resultFileName = Math.random() + "." + file.getOriginalFilename();
+        System.out.println(files.length);
         Product product = new Product(name, description, new Date(), categoryService.findById(Long.valueOf(id)));
         product.setPrice(BigDecimal.valueOf(new Double((price))));
         product.setImgName(resultImageName);
-        product.setFileName(resultFileName);
+//        product.setFileName(resultFileName);
+        List<AudioTrack> audioTracks = storageService.storeMultipleFiles(files, product);
+        product.setAudioTracks(audioTracks);
         productService.addProduct(product);
         storageService.store(image, resultImageName, name);
-        storageService.store(file, resultFileName, name);
+//        storageService.store(file, resultFileName, name);
         return "redirect:/catalog";
     }
 

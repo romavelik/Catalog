@@ -1,10 +1,13 @@
 package com.velykorod.productcatalogue.persistance.domain.impl;
 
 
+import com.velykorod.productcatalogue.persistance.domain.MediaFile;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -31,8 +34,8 @@ public class Product implements Serializable {
     @Column
     private String imgName;
 
-    @Column
-    private String fileName;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<AudioTrack> audioTracks;
 
     @Column
     private BigDecimal price;
@@ -53,6 +56,14 @@ public class Product implements Serializable {
     }
 
     public Product() {
+    }
+
+    public List<AudioTrack> getAudioTracks() {
+        return audioTracks;
+    }
+
+    public void setAudioTracks(List<AudioTrack> audioTracks) {
+        this.audioTracks = audioTracks;
     }
 
     public BigDecimal getPrice() {
@@ -107,17 +118,10 @@ public class Product implements Serializable {
         return imgName;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
     public void setImgName(String imgName) {
         this.imgName = imgName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
 
     @Override
     public boolean equals(Object o) {

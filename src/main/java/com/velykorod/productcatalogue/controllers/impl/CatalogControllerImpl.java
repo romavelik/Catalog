@@ -5,9 +5,7 @@ import com.velykorod.productcatalogue.persistance.domain.impl.Category;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
 import com.velykorod.productcatalogue.service.CategoryService;
 import com.velykorod.productcatalogue.service.ProductService;
-import com.velykorod.productcatalogue.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,16 +19,12 @@ public class CatalogControllerImpl implements CatalogController {
     @Autowired
     private CategoryService categoryService;
 
-    /*Returns page with product list*/
-
     @GetMapping("/catalog")
     @Override
     public String getCatalog(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         return "catalog";
     }
-
-    /*Returns specified product page that contains details and buttons update and delete*/
 
     @GetMapping("/catalog/product/{id}")
     @Override

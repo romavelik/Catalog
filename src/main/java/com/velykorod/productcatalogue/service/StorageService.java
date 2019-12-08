@@ -1,14 +1,11 @@
 package com.velykorod.productcatalogue.service;
 
-import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
+import java.io.IOException;
 
 public interface StorageService {
-    public void store(MultipartFile file);
+    public void store(MultipartFile file, String fileName, String productName);
 
-    public Resource loadAsResource(String fileName);
-
-    public Path load(String fileName);
+    byte[] loadFile(String fileName, String productName) throws IOException;
 }

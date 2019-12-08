@@ -1,9 +1,9 @@
 package com.velykorod.productcatalogue.persistance.domain.impl;
 
-import lombok.NonNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -34,6 +34,9 @@ public class Product implements Serializable {
     @Column
     private String fileName;
 
+    @Column
+    private BigDecimal price;
+
 
     public Product(Long id, String name, String description, Date dateCreated) {
         this.id = id;
@@ -50,6 +53,14 @@ public class Product implements Serializable {
     }
 
     public Product() {
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public void setId(Long id) {

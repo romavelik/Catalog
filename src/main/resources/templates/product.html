@@ -36,6 +36,9 @@
     </div>
 </nav>
 <div>
+    <img th:src="@{/files/{dir}/{image}/(image=${product.imgName},dir=${product.name})}">
+</div>
+<div>
     <td th:text="${product.id}"></td>
     <td th:text="${product.name}"></td>
 </div>
@@ -44,6 +47,17 @@
 </div>
 <div>
     <td th:text="${product.dateCreated}"></td>
+</div>
+<div>
+    <audio th:src="@{/files/{dir}/{file}/(file=${product.fileName}, dir=${product.name})}" controls>Play</audio>
+</div>
+<div>
+    <form th:action="@{/{filename}(filename=${product.fileName})}" method="get">
+    <label for="download">
+        <input type="hidden" th:value="${product.name}" id="download" name="name">
+    </label>
+    <button type="submit" class="btn btn-light mb-1">Download</button>
+</form>
 </div>
 <div>
     <a th:href="@{/catalog/category/{id}/(id=${product.category.id})}" th:text="${product.category.name}"></a>

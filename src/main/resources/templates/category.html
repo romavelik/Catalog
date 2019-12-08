@@ -43,6 +43,7 @@
         <div class="col-sm-3">
             <div class="card-centr" style="width: 18rem;">
                 <div class="card-body">
+                    <img th:src="@{/files/{dir}/{image}/(image=${product.imgName},dir=${product.name})}">
                     <h5 class="card-title" th:text="${product.name}"></h5>
                     <p class="card-text" th:text="${product.description}"></p>
                     <a class="btn btn-outline-dark" th:href="@{/catalog/product/{id}/(id=${product.id})}" role="button">More</a>

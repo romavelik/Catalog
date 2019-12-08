@@ -5,7 +5,9 @@ import com.velykorod.productcatalogue.persistance.domain.impl.Category;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
 import com.velykorod.productcatalogue.service.CategoryService;
 import com.velykorod.productcatalogue.service.ProductService;
+import com.velykorod.productcatalogue.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +36,10 @@ public class CatalogControllerImpl implements CatalogController {
     @Override
     public String productDetails(@PathVariable String id, Model model) {
         Product product = productService.findById(Long.valueOf(id));
+
         if (product != null) {
             model.addAttribute("product", product);
+            model.addAttribute("file");
             return "product";
         } else {
             return "error";

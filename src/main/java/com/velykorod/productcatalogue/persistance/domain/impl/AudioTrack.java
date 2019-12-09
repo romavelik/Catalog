@@ -1,7 +1,5 @@
 package com.velykorod.productcatalogue.persistance.domain.impl;
 
-import com.velykorod.productcatalogue.persistance.domain.MediaFile;
-
 import javax.persistence.*;
 
 @Entity

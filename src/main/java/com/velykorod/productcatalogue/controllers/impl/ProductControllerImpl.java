@@ -1,7 +1,6 @@
 package com.velykorod.productcatalogue.controllers.impl;
 
 import com.velykorod.productcatalogue.controllers.ProductController;
-import com.velykorod.productcatalogue.persistance.domain.MediaFile;
 import com.velykorod.productcatalogue.persistance.domain.impl.AudioTrack;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
 import com.velykorod.productcatalogue.service.CategoryService;
@@ -40,17 +39,13 @@ public class ProductControllerImpl implements ProductController {
                              @RequestParam("image") MultipartFile image,
                              @RequestParam("file[]") MultipartFile[] files) {
         String resultImageName = UUID.randomUUID().toString() + "." + image.getOriginalFilename();
-//        String resultFileName = Math.random() + "." + file.getOriginalFilename();
-        System.out.println(files.length);
         Product product = new Product(name, description, new Date(), categoryService.findById(Long.valueOf(id)));
         product.setPrice(BigDecimal.valueOf(new Double((price))));
         product.setImgName(resultImageName);
-//        product.setFileName(resultFileName);
         List<AudioTrack> audioTracks = storageService.storeMultipleFiles(files, product);
         product.setAudioTracks(audioTracks);
         productService.addProduct(product);
         storageService.store(image, resultImageName, name);
-//        storageService.store(file, resultFileName, name);
         return "redirect:/catalog";
     }
 
@@ -63,8 +58,9 @@ public class ProductControllerImpl implements ProductController {
 
     @PostMapping("/delete_product")
     @Override
-    public String deleteProduct(@RequestParam String id) {
+    public String deleteProduct(@RequestParam String id, @RequestParam String name) {
         productService.deleteProduct(Long.valueOf(id));
+        storageService.delete(name);
         return "redirect:/catalog";
     }
 
@@ -80,10 +76,12 @@ public class ProductControllerImpl implements ProductController {
     public String editProduct(@RequestParam String id,
                               @RequestParam String name,
                               @RequestParam String description,
-                              @RequestParam String price) {
+                              @RequestParam String price,
+                              @RequestParam String oldName) {
         Product product = new Product(Long.valueOf(id), name, description, new Date());
         product.setPrice(BigDecimal.valueOf(new Double((price))));
         productService.editProduct(product);
+        storageService.updateDirName(oldName, name);
         return "redirect:/catalog";
     }
 

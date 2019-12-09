@@ -57,7 +57,7 @@
         <input class="form-control form-control-lg" type="text" name="price" id="price"
                placeholder="Describe a product" th:value="${product.price}">
     </div>
-    </div>
+    <input type="hidden" name="oldName" th:value="${product.name}">
     <button type="submit" class="btn btn-outline-dark">Edit</button>
 
 </form>

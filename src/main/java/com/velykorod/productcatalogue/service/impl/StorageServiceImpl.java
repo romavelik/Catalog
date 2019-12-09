@@ -1,19 +1,19 @@
 package com.velykorod.productcatalogue.service.impl;
 
 import com.velykorod.productcatalogue.exceptions.StorageException;
-import com.velykorod.productcatalogue.persistance.domain.MediaFile;
 import com.velykorod.productcatalogue.persistance.domain.impl.AudioTrack;
 import com.velykorod.productcatalogue.persistance.domain.impl.Product;
 import com.velykorod.productcatalogue.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +22,6 @@ public class StorageServiceImpl implements StorageService {
     @Value("${upload.path}")
     private String rootLocation;
 
-//    @Autowired
-//    ResourceLoader resourceLoader;
     @Autowired
     private AudioTrackServiceImpl audioTrackService;
 
@@ -62,5 +60,21 @@ public class StorageServiceImpl implements StorageService {
         }
         audioTrackService.addTrackList(mediaFiles);
         return mediaFiles;
+    }
+
+    @Override
+    public void delete(String productName) {
+        try {
+            FileSystemUtils.deleteRecursively(Paths.get(rootLocation, productName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateDirName(String oldName, String newName) {
+        File oldDir = new File(rootLocation, oldName);
+        File newDir = new File(rootLocation, newName);
+        oldDir.renameTo(newDir);
     }
 }

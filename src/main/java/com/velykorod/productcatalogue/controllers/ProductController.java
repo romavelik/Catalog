@@ -11,5 +11,5 @@ public interface ProductController {
     String createProduct(Model model);
     String addProduct(String name, String description, String id, String price, MultipartFile image, MultipartFile [] files);
     String editProduct(String id, String name, String description, String price, String oldName);
-    byte [] getFile(String filename, String productName) throws IOException;
+    byte [] downloadProduct(String filename) throws IOException;
 }

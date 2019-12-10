@@ -7,12 +7,10 @@ import com.velykorod.productcatalogue.service.CategoryService;
 import com.velykorod.productcatalogue.service.ProductService;
 import com.velykorod.productcatalogue.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -85,9 +83,9 @@ public class ProductControllerImpl implements ProductController {
         return "redirect:/catalog";
     }
 
-    @GetMapping(value = "/{filename}", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @GetMapping(value = "/{filename}", produces = "application/zip")
     public @ResponseBody
-    byte[] getFile(@PathVariable String filename, @RequestParam("name") String productName) throws IOException {
-        return storageService.loadFile(filename, productName);
+    byte[] downloadProduct(@PathVariable String filename) throws IOException {
+        return storageService.loadAsZip(filename);
     }
 }

@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class StorageServiceImpl implements StorageService {
@@ -39,7 +40,6 @@ public class StorageServiceImpl implements StorageService {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
         }
     }
-
 
     public byte[] loadFile(String fileName, String productName) throws IOException {
         File file = new File(rootLocation.concat("/").concat(productName), fileName);
@@ -77,4 +77,26 @@ public class StorageServiceImpl implements StorageService {
         File newDir = new File(rootLocation, newName);
         oldDir.renameTo(newDir);
     }
+
+    @Override
+    public byte[] loadAsZip(String directory) throws IOException {
+        String zipName = directory.concat("_package.zip");
+        File fileToZip = new File(rootLocation + "/" + directory);
+        File[] innerFiles = fileToZip.listFiles();
+        FileOutputStream fos = new FileOutputStream(rootLocation + "/" + zipName);
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        for(File sourceFile : innerFiles){
+            FileInputStream fileInputStream = new FileInputStream(sourceFile);
+            zipOut.putNextEntry(new ZipEntry(sourceFile.getName())); byte[] bytes = new byte[1024];
+            int length;
+            while((length = fileInputStream.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
+            }
+            fileInputStream.close();
+        }
+        zipOut.close();
+        fos.close();
+        return loadFile("", zipName);
+    }
+
 }

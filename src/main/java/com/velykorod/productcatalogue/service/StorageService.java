@@ -18,5 +18,6 @@ public interface StorageService {
 
     void updateDirName(String oldName, String newName);
 
+    byte[] loadAsZip(String directory) throws IOException;
 
 }

@@ -53,14 +53,11 @@
     <audio th:src="@{/files/{dir}/{file}/(file=${track.fileName}, dir=${product.name})}" controls>Play</audio>
 </div>
 </tr>
-<!--<div>-->
-<!--    <form th:action="@{/{filename}(filename=${product.fileName})}" method="get">-->
-<!--    <label for="download">-->
-<!--        <input type="hidden" th:value="${product.name}" id="download" name="name">-->
-<!--    </label>-->
-<!--    <button type="submit" class="btn btn-light mb-1">Download</button>-->
-<!--</form>-->
-<!--</div>-->
+<div>
+    <form th:action="@{/{filename}(filename=${product.name})}" method="get">
+    <button type="submit" class="btn btn-light mb-1">Download</button>
+</form>
+</div>
 <div>
     <a th:href="@{/catalog/category/{id}/(id=${product.category.id})}" th:text="${product.category.name}"></a>
 </div>

@@ -14,8 +14,6 @@ public class SearchControllerImpl implements SearchController {
     @Autowired
     private ProductService productService;
 
-    /*Finds product with specified name and returns list of products with this name*/
-
     @GetMapping("/search")
     @Override
     public String findByName(@RequestParam("search") String name, Model model) {

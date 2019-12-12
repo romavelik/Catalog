@@ -32,7 +32,7 @@ public class StorageServiceImpl implements StorageService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
-            File directory = new File(rootLocation,productName);
+            File directory = new File(rootLocation, productName);
             directory.mkdir();
             File stored = new File(directory, fileName);
             file.transferTo(stored);
@@ -83,6 +83,9 @@ public class StorageServiceImpl implements StorageService {
         String zipName = directory.concat("_package.zip");
         File fileToZip = new File(rootLocation + "/" + directory);
         File[] innerFiles = fileToZip.listFiles();
+        if(innerFiles == null) {
+            throw new StorageException("No files found inside " + directory);
+        }
         FileOutputStream fos = new FileOutputStream(rootLocation + "/" + zipName);
         ZipOutputStream zipOut = new ZipOutputStream(fos);
         for(File sourceFile : innerFiles){
@@ -98,5 +101,6 @@ public class StorageServiceImpl implements StorageService {
         fos.close();
         return loadFile("", zipName);
     }
+
 
 }

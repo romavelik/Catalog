@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,8 +26,12 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -46,8 +51,6 @@ public class ProductControllerImplTest {
 
     MockMvc mock;
 
-    @Value("${upload.path}")
-    String directory;
 
     @Before
     public void setup() {
@@ -62,24 +65,24 @@ public class ProductControllerImplTest {
     private String productDescription = "Test Description";
     private Date productDate = new Date();
     private Product product = new Product(productName, productDescription, productDate, new Category());
-    private File test1 = new File(directory,"test1.txt");
-    private File test2 = new File(directory,"test2.txt");
-    private MockMultipartFile mockFile1 = new MockMultipartFile("test1", "test1.txt", "text/plain", "test".getBytes());
-    private MockMultipartFile mockFile2 = new MockMultipartFile("test2", "test2.txt", "text/plain", "test".getBytes());
 
     @Test
     public void testAddProduct() throws Exception {
+        File file = new File("D:/projects/programming/test_stor/1.jpg");
+        String name = "image";
+        String originalName = "1.jpg";
+        byte[] content = file.getPath().getBytes();
+        MockMultipartFile multipartFile = new MockMultipartFile(name, originalName, MediaType.MULTIPART_FORM_DATA_VALUE, content);
         Mockito.when(categoryService.findById(1L)).thenReturn(new Category());
 
-//        mock.perform(MockMvcRequestBuilders.multipart("/add_product")
-//                .file(mockFile1)
-//                .file(mockFile2)
-//                .param("name", "test")
-//                .param("description", "test")
-//                .param("categoryId", "1")
-//                .param("price", "12"))
-//                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-//                .andExpect(MockMvcResultMatchers.view().name("redirect:/catalog"));
+        mock.perform(MockMvcRequestBuilders.multipart("/add_product")
+                    .file(multipartFile)
+                    .param("name", "test")
+                    .param("description", "test")
+                    .param("categoryId", "1")
+                    .param("price", "12"))
+                    .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                    .andExpect(MockMvcResultMatchers.view().name("redirect:/catalog"));
 
     }
 

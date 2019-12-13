@@ -35,39 +35,40 @@
         </ul>
     </div>
 </nav>
-<div>
-    <img th:src="@{/files/{dir}/{image}/(image=${product.imgName},dir=${product.name})}">
-</div>
-<div>
-    <td th:text="${product.id}"></td>
-    <td th:text="${product.name}"></td>
-</div>
-<div>
-    <td th:text="${product.description}"></td>
-</div>
-<div>
-    <td th:text="${product.dateCreated}"></td>
-</div>
+<div class="card col-10" style="width: 36rem;">
+    <div class="card-body">
+    <img th:src="@{/files/{dir}/{image}/(image=${product.imgName},dir=${product.name})}" style="width: 26rem;">
+<!--    <td th:text="${product.id}"></td>-->
+    <h3 th:text="${product.name}"></h3>
+    <p class="card-text" th:text="${product.description}"></p>
+        <div>Genre
+            <a th:href="@{/catalog/category/{id}/(id=${product.category.id})}" th:text="${product.category.name}"></a></div>
+    <p class="card-text" th:text="${product.dateCreated}"></p>
 <tr th:each="track:${product.audioTracks}">
-<div>
-    <audio th:src="@{/files/{dir}/{file}/(file=${track.fileName}, dir=${product.name})}" controls>Play</audio>
-</div>
+    <div>
+        <audio th:src="@{/files/{dir}/{file}/(file=${track.fileName}, dir=${product.name})}" controls>Play</audio>
+    </div>
 </tr>
 <div>
     <form th:action="@{/{filename}(filename=${product.name})}" method="get">
-    <button type="submit" class="btn btn-light mb-1">Download</button>
-</form>
+        <button type="submit" class="btn btn-outline-dark mb-1">Download</button>
+    </form>
 </div>
-<div>
-    <a th:href="@{/catalog/category/{id}/(id=${product.category.id})}" th:text="${product.category.name}"></a>
+
+<p></p>
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-light active">
+        <a th:href="@{/update_product/{id}/(id=${product.id})}" class="btn btn-outline-dark">Update product</a>
+    </label>
+    <label class="btn btn-light active">
+        <form action="/delete_product" method="post">
+            <input type="hidden" name="id" th:value="${product.id}">
+            <input type="hidden" name="name" th:value="${product.name}">
+            <button type="submit" class="btn btn-outline-dark">Delete product</button>
+        </form>
+    </label>
 </div>
-<p><a th:href="@{/update_product/{id}/(id=${product.id})}" class="btn btn-outline-dark">Update product</a></p>
-<p>
-<form action="/delete_product" method="post">
-    <input type="hidden" name="id" th:value="${product.id}">
-    <input type="hidden" name="name" th:value="${product.name}">
-    <button type="submit" class="btn btn-outline-dark">Delete product</button>
-</form>
-</p>
+    </div>
+</div>
 </body>
 </html>

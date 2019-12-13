@@ -14,7 +14,10 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    List<Product> findByName(String name);
+    @Modifying
+    @Transactional
+    @Query("select p from Product p where lower(p.name) like lower(:name)")
+    List<Product> findByName(@Param("name") String name);
 
     void deleteById(Long id);
 

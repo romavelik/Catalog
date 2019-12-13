@@ -48,8 +48,8 @@
     <div class="form-group">
         <div class="col-5">
             <label for="description">Description</label>
-            <input class="form-control form-control-lg" type="text" name="description" id="description"
-                   placeholder="Describe a product" th:value="${product.description}">
+            <textarea class="form-control" type="text" name="description" id="description" rows="4"
+                      placeholder="Describe a product" th:value="${product.description}"></textarea>
         </div>
     </div>
     <div class="col-5">
@@ -58,7 +58,8 @@
                placeholder="Describe a product" th:value="${product.price}">
     </div>
     <input type="hidden" name="oldName" th:value="${product.name}">
-    <button type="submit" class="btn btn-outline-dark">Edit</button>
+    <div class="col-5"><button type="submit" class="btn btn-outline-dark">Edit</button></div>
+
 
 </form>
 </body>

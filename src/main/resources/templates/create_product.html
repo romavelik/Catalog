@@ -45,8 +45,8 @@
     <div class="form-group">
         <div class="col-5">
             <label for="description">Description</label>
-            <input class="form-control form-control-lg" type="text" name="description" id="description"
-                   placeholder="Describe a product">
+            <textarea class="form-control" type="text" rows="5" name="description" id="description"
+                      placeholder="Describe a product"></textarea>
         </div>
     </div>
     <div class="form-group">
@@ -56,31 +56,31 @@
                placeholder="Enter the price">
     </div>
     </div>
-    <div class="form-row align-items-center">
-        <div class="col-auto my-1">
-            <label class="mr-sm-2 sr-only" for="category">Category</label>
+<!--    <div class="form-row align-items-center">-->
+        <div class="col-5">
+            <label class="mr-sm-2 sr-only" for="category">Genre</label>
             <select class="custom-select mr-sm-2" name="categoryId" id="category">
-                <option selected>Choose category</option>
+                <option selected>Genre</option>
                 <option th:each="category : ${categories}"
                         th:value="${category.id}"
                         th:text="${category.name}"></option>
             </select>
         </div>
-    </div>
+<!--    </div>-->
+    <p></p>
     <div class="form-group">
         <div class="col-5">
-            <label for="image">Load the image</label>
+            <label for="image">Cover</label>
             <input class="form-control" type="file" name="image" id="image">
         </div>
     </div>
     <div class="form-group">
         <div class="col-5">
-            <label for="file">Load the file</label>
+            <label for="file">Files</label>
             <input class="form-control" type="file" multiple name="file[]" id="file">
         </div>
     </div>
-
-    <button type="submit" class="btn btn-outline-dark">Done</button>
+<div class="col-5"><button type="submit" class="btn btn-outline-dark">Done</button></div>
 </form>
 </body>
 </html>

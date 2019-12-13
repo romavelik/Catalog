@@ -12,26 +12,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -64,15 +57,16 @@ public class ProductControllerImplTest {
     private String productName = "Test Product";
     private String productDescription = "Test Description";
     private Date productDate = new Date();
-    private Product product = new Product(productName, productDescription, productDate, new Category());
+    private Product product = new Product(productName, productDescription, productDate, new Category());        File file = new File("D:/projects/programming/test_stor/1.jpg");
+    private String name = "image";
+    private String originalName = "1.jpg";
+    private byte[] content = file.getPath().getBytes();
+    private MockMultipartFile multipartFile = new MockMultipartFile(name, originalName, MediaType.MULTIPART_FORM_DATA_VALUE, content);
+
 
     @Test
     public void testAddProduct() throws Exception {
-        File file = new File("D:/projects/programming/test_stor/1.jpg");
-        String name = "image";
-        String originalName = "1.jpg";
-        byte[] content = file.getPath().getBytes();
-        MockMultipartFile multipartFile = new MockMultipartFile(name, originalName, MediaType.MULTIPART_FORM_DATA_VALUE, content);
+
         Mockito.when(categoryService.findById(1L)).thenReturn(new Category());
 
         mock.perform(MockMvcRequestBuilders.multipart("/add_product")
@@ -122,4 +116,13 @@ public class ProductControllerImplTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/catalog"));
     }
+
+    @Test
+    public void testDownloadProduct() throws Exception {
+        Mockito.when(storageService.loadAsZip("test")).thenReturn(content);
+        mock.perform(MockMvcRequestBuilders.get("/test"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+
 }

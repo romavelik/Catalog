@@ -36,7 +36,7 @@
     </div>
 </nav>
 <div>
-    <h2>Categories</h2>
+    <h2>Genres</h2>
 </div>
 <tr th:each="category:${categories}">
     <div class="list-group">
@@ -44,18 +44,18 @@
                 <a th:href="@{/catalog/category/{id}/(id=${category.id})}" class="list-group-item list-group-item-action"
                    th:text="${category.name}"></a>
             <label class="btn btn-light active">
-                <a th:href="@{/edit_category/{id}/(id=${category.id})}" class="btn btn-outline-dark">Edit category</a>
+                <a th:href="@{/edit_category/{id}/(id=${category.id})}" class="btn btn-outline-dark">Edit genre</a>
             </label>
             <label class="btn btn-light active">
                 <form action="/delete_category" method="post">
                     <input type="hidden" name="id" th:value="${category.id}">
-                    <button type="submit" class="btn btn-outline-dark">Delete category</button>
+                    <button type="submit" class="btn btn-outline-dark">Delete genre</button>
                 </form>
             </label>
         </div>
     </div>
 </tr>
 <p></p>
-<div><a href="/create_category" class="btn btn-outline-dark">Add new category</a></div>
+<div><a href="/create_category" class="btn btn-outline-dark">Add new genre</a></div>
 </body>
 </html>

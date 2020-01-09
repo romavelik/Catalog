@@ -64,8 +64,12 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public void delete(String productName) {
+        File zipFile = new File(rootLocation, productName.concat("_package.zip"));
         try {
             FileSystemUtils.deleteRecursively(Paths.get(rootLocation, productName));
+            if(zipFile.exists()){
+                FileSystemUtils.deleteRecursively(zipFile);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,12 +80,23 @@ public class StorageServiceImpl implements StorageService {
         File oldDir = new File(rootLocation, oldName);
         File newDir = new File(rootLocation, newName);
         oldDir.renameTo(newDir);
+        File zipFile = new File(rootLocation, oldName.concat("_package.zip"));
+        if(zipFile.exists()){
+            File renameZipFile = new File(rootLocation, newName.concat("_package.zip"));
+            zipFile.renameTo(renameZipFile);
+        }
+
     }
 
     @Override
     public byte[] loadAsZip(String directory) throws IOException {
         String zipName = directory.concat("_package.zip");
+        File zipFile = new File(rootLocation + "/" + zipName);
         File fileToZip = new File(rootLocation + "/" + directory);
+        if(zipFile.exists())
+        {
+            return Files.readAllBytes(zipFile.toPath());
+        }
         File[] innerFiles = fileToZip.listFiles();
         if(innerFiles == null) {
             throw new StorageException("No files found inside " + directory);

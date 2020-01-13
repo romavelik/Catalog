@@ -4,6 +4,7 @@ import com.velykorod.productcatalogue.exceptions.EmailExistsException;
 import com.velykorod.productcatalogue.exceptions.UserNotFoundException;
 import com.velykorod.productcatalogue.persistance.domain.impl.Role;
 import com.velykorod.productcatalogue.persistance.domain.impl.user.User;
+import com.velykorod.productcatalogue.persistance.domain.impl.user.UserDto;
 import com.velykorod.productcatalogue.persistance.repository.UserRepository;
 import com.velykorod.productcatalogue.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +36,18 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void registerUser(User user) throws EmailExistsException{
-        if(emailExists(user.getEmail())){
-            throw new EmailExistsException(String.format("Account with email %s already exists", user.getEmail()));
-        }else {
-            user.setRoles(Arrays.asList(Role.USER));
-            userRepository.save(user);
+    public User registerUser(UserDto userDto) throws EmailExistsException{
+        if(emailExists(userDto.getEmail())){
+            throw new EmailExistsException(String.format("Account with email %s already exists", userDto.getEmail()));
         }
+        User user = new User();
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setLogin(userDto.getLogin());
+        user.setRoles(Arrays.asList(Role.USER));
+        userRepository.save(user);
+        return user;
+
     }
 
     @Override

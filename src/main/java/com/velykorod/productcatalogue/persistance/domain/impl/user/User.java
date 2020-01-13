@@ -13,11 +13,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
-@PasswordMatches
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,9 +30,8 @@ public class User implements UserDetails {
     @NotEmpty
     @Column
     private String password;
-    private String matchingPassword;
+//    private String matchingPassword;
 
-    @ValidEmail
     @NotNull
     @NotEmpty
     @Column
@@ -111,13 +108,6 @@ public class User implements UserDetails {
         return email;
     }
 
-    public String getMatchingPassword() {
-        return matchingPassword;
-    }
-
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
-    }
 
     public List<Role> getRoles() {
         return roles;

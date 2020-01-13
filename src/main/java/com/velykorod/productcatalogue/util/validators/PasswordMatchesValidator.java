@@ -1,6 +1,7 @@
 package com.velykorod.productcatalogue.util.validators;
 
 import com.velykorod.productcatalogue.persistance.domain.impl.user.User;
+import com.velykorod.productcatalogue.persistance.domain.impl.user.UserDto;
 import com.velykorod.productcatalogue.util.annotations.PasswordMatches;
 
 import javax.validation.ConstraintValidator;
@@ -13,7 +14,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
     }
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context){
-        User user = (User) obj;
+        UserDto user = (UserDto) obj;
         return user.getPassword().equals(user.getMatchingPassword());
     }
 }

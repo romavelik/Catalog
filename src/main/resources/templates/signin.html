@@ -26,9 +26,6 @@
             <li class="navbar-nav mr-auto">
                 <a class="navbar-brand" href="/signup">Sing up</a>
             </li>
-            <li class="navbar-nav mr-auto">
-                <a class="navbar-brand" href="/signin">Sing in</a>
-            </li>
             <li class="nav-item">
                 <form action="/search" method="get">
                     <label for="search">
@@ -41,27 +38,20 @@
         </ul>
     </div>
 </nav>
-<div>
-    <h2>Genres</h2>
-</div>
-<tr th:each="category:${categories}">
-    <div class="list-group">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <a th:href="@{/catalog/category/{id}/(id=${category.id})}" class="list-group-item list-group-item-action"
-                   th:text="${category.name}"></a>
-            <label class="btn btn-light active">
-                <a th:href="@{/edit_category/{id}/(id=${category.id})}" class="btn btn-outline-dark">Edit genre</a>
-            </label>
-            <label class="btn btn-light active">
-                <form action="/delete_category" method="post">
-                    <input type="hidden" name="id" th:value="${category.id}">
-                    <button type="submit" class="btn btn-outline-dark">Delete genre</button>
-                </form>
-            </label>
+<form action="/login" method="get">
+    <div class="form-group">
+        <div class="col-5">
+            <label for="login">Login</label>
+            <input type="text" class="form-control" name="login" id="login" placeholder="Enter login" required>
         </div>
     </div>
-</tr>
-<p></p>
-<div><a href="/create_category" class="btn btn-outline-dark">Add new genre</a></div>
+    <div class="form-group">
+        <div class="col-5">
+            <label for="password">Password</label>
+            <input type="text" class="form-control" name="password" id="password" placeholder="Enter password" required>
+        </div>
+    </div>
+    <div class="col-5"><button type="submit" class="btn btn-outline-dark">Done</button></div>
+</form>
 </body>
 </html>

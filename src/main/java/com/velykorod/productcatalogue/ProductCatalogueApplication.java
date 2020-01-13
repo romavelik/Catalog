@@ -1,11 +1,11 @@
 package com.velykorod.productcatalogue;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-/*Works with in-memory DB therefore tha catalog is empty*/
-
+@EnableAutoConfiguration
 @SpringBootApplication
 public class ProductCatalogueApplication {
 	public static void main(String[] args) {

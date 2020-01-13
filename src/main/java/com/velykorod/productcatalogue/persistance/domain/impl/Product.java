@@ -29,6 +29,11 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "project_id")
+//    private Project project;
+
+
     @Column
     private String imgName;
 
